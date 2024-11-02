@@ -5,6 +5,7 @@ import br.com.fiap.techchallenge.lanchonete.entities.MensagemErroPadrao;
 import br.com.fiap.techchallenge.lanchonete.entities.Produto;
 import br.com.fiap.techchallenge.lanchonete.entities.dbEntities.ProdutoEntity;
 import br.com.fiap.techchallenge.lanchonete.interfaces.dbconnection.RepositoryProduto;
+import br.com.fiap.techchallenge.lanchonete.interfaces.gateways.ProdutoGateway;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -15,7 +16,7 @@ import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Component
-public class ProdutoGatewayImpl implements br.com.fiap.techchallenge.lanchonete.interfaces.gateways.ProdutoGateway {
+public class ProdutoGatewayImpl implements ProdutoGateway {
 
     private final RepositoryProduto repositoryProduto;
     private final ProdutoMapper produtoMapper;
@@ -91,6 +92,22 @@ public class ProdutoGatewayImpl implements br.com.fiap.techchallenge.lanchonete.
         var produtoOptional = repositoryProduto.findById(id);
 
         return produtoOptional.isPresent();
+    }
+
+    @Override
+    public Produto buscaPorId(Integer id) throws Exception {
+        try {
+            var produtoEntityOptional = repositoryProduto.findById(id);
+
+            if(produtoEntityOptional.isEmpty())
+                throw new EntityNotFoundException(String.format(MensagemErroPadrao.PRODUTO_NAO_ENCONTRADO, id));
+
+            return produtoMapper.fromDbEntityToEntity(produtoEntityOptional.get());
+        } catch (EntityNotFoundException entityNotFoundException) {
+            throw new EntityNotFoundException(entityNotFoundException.getLocalizedMessage(), entityNotFoundException);
+        } catch (Exception exception) {
+            throw new Exception(exception.getMessage(), exception);
+        }
     }
 }
 

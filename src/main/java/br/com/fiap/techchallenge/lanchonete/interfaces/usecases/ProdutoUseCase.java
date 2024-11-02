@@ -10,4 +10,6 @@ public interface ProdutoUseCase {
     Produto update(Produto produto) throws Exception;
     void delete(int id) throws Exception;
     List<Produto> buscaProdutoPorCategoria(String categoria) throws Exception;
+
+    Produto buscaProdutoPorId(Integer id) throws Exception;
 }

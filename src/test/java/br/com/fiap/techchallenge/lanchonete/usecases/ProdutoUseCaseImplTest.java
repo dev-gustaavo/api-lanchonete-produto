@@ -132,4 +132,33 @@ public class ProdutoUseCaseImplTest {
         assertThrows(Exception.class, () -> produtoUseCase.buscaProdutoPorCategoria("LANCHE"));
         verify(produtoGateway, times(1)).buscaPorCategoria(anyString());
     }
+
+    @Test
+    @Description("Deve buscar um produto por id")
+    void deveBuscarProdutoPorId() throws Exception {
+        when(produtoGateway.buscaPorId(anyInt())).thenReturn(produtoMock);
+
+        var result = produtoUseCase.buscaProdutoPorId(1);
+
+        verify(produtoGateway, times(1)).buscaPorId(anyInt());
+
+        assertAll(
+                () -> assertNotNull(result),
+                () -> assertEquals(result.getNome(), produtoMock.getNome()),
+                () -> assertEquals(result.getDescricao(), produtoMock.getDescricao()),
+                () -> assertEquals(result.getPreco(), produtoMock.getPreco()),
+                () -> assertEquals(result.getCategoria(), produtoMock.getCategoria()),
+                () -> assertEquals(result.getId(), produtoMock.getId()),
+                () -> assertEquals(result.getImagemPath(), produtoMock.getImagemPath())
+        );
+    }
+
+    @Test
+    @Description("Deve retornar Exception ao tentar buscar produto por id")
+    void deveRetornarExceptionAoTentarBuscarProdutoPorId() throws Exception {
+        when(produtoGateway.buscaPorId(anyInt())).thenThrow(new Exception());
+
+        assertThrows(Exception.class, () -> produtoUseCase.buscaProdutoPorId(1));
+        verify(produtoGateway, times(1)).buscaPorId(anyInt());
+    }
 }
