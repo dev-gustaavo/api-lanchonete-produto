@@ -161,8 +161,33 @@ public class ProdutoControllerTest {
 
     @Test
     @Description("Deve retornar uma exception ao tentar listar produtos por categoria")
-    void deveRetornarUmaExceptionAoTentarDeletarCliente() throws Exception {
+    void deveRetornarUmaExceptionAoTentarBuscarProdutoPorCategoria() throws Exception {
         when(produtoUseCase.buscaProdutoPorCategoria(anyString())).thenThrow(new Exception("erro"));
         assertThrows(Exception.class, () -> produtoController.buscarProdutoPorCategoria("LANCHE"));
+    }
+
+    @Test
+    @Description("Deve buscar produto por id")
+    void deveBuscarProdutoPorId() throws Exception {
+        when(produtoUseCase.buscaProdutoPorId(anyInt())).thenReturn(produtoMock);
+
+        var result = produtoController.buscarProdutoPorId(1);
+        var body = result.getBody();
+        assertAll(
+                () -> assertEquals(result.getStatusCode().value(), HttpStatus.OK.value()),
+                () -> assertEquals(body.getNome(), produtoMock.getNome()),
+                () -> assertEquals(body.getCategoria(), produtoMock.getCategoria()),
+                () -> assertEquals(body.getDescricao(), produtoMock.getDescricao()),
+                () -> assertEquals(body.getId(), produtoMock.getId()),
+                () -> assertEquals(body.getPreco(), produtoMock.getPreco()),
+                () -> assertEquals(body.getImagemPath(), produtoMock.getImagemPath())
+        );
+    }
+
+    @Test
+    @Description("Deve retornar uma exception ao tentar buscar produto por id")
+    void deveRetornarUmaExceptionAoTentarBuscarProdutoPorId() throws Exception {
+        when(produtoUseCase.buscaProdutoPorId(anyInt())).thenThrow(new Exception("erro"));
+        assertThrows(Exception.class, () -> produtoController.buscarProdutoPorId(1));
     }
 }

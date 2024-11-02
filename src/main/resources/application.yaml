@@ -6,7 +6,7 @@ spring:
       ddl-auto: ${DDL_AUTO:create-drop}
     show-sql: ${SHOW_SQL:true}
   datasource:
-    url: ${URL_DATABASE:jdbc:mysql://localhost:32700/lanchonete}
+    url: ${URL_DATABASE:jdbc:mysql://mysql-db:3306/produto}
     username: ${USER_DATABASE:user}
     password: ${PASSWORD_DATABASE:pass}
     driver-class-name: com.mysql.cj.jdbc.Driver

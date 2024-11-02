@@ -53,4 +53,10 @@ public class ProdutoController {
         return ResponseEntity.ok(produtos);
     }
 
+    @GetMapping("/busca/{id}")
+    public ResponseEntity<Produto> buscarProdutoPorId(@PathVariable(value = "id") Integer id) throws Exception {
+        var produto = produtoUseCase.buscaProdutoPorId(id);
+        return ResponseEntity.ok(produto);
+    }
+
 }
