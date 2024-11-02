@@ -11,4 +11,5 @@ public interface ProdutoGateway {
     void delete(Integer id) throws Exception;
     List<Produto> buscaPorCategoria(String categoria) throws Exception;
     Boolean isProduto(Integer id);
+    Produto buscaPorId(Integer id) throws Exception;
 }
