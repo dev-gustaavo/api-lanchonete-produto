@@ -39,4 +39,9 @@ public class ProdutoUseCaseImpl implements ProdutoUseCase {
     public List<Produto> buscaProdutoPorCategoria(String categoria) throws Exception {
         return produtoGateway.buscaPorCategoria(categoria);
     }
+
+    @Override
+    public Produto buscaProdutoPorId(Integer id) throws Exception {
+        return produtoGateway.buscaPorId(id);
+    }
 }

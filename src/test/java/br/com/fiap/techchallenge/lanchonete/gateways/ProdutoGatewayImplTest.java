@@ -191,4 +191,45 @@ public class ProdutoGatewayImplTest {
         when(repositoryProduto.findById(anyInt())).thenReturn(Optional.empty());
         assertFalse(produtoGateway.isProduto(1));
     }
+
+    @Test
+    @Description("Deve retornar um produto por id")
+    void deveRetornarProdutoPorId() throws Exception {
+        when(repositoryProduto.findById(anyInt())).thenReturn(Optional.of(produtoEntityMock));
+        when(produtoMapper.fromDbEntityToEntity(any())).thenReturn(produtoMock);
+
+        var result = produtoGateway.buscaPorId(1);
+
+        verify(repositoryProduto, times(1)).findById(anyInt());
+        verify(produtoMapper, times(1)).fromDbEntityToEntity(any());
+        assertAll(
+                () -> assertNotNull(result),
+                () -> assertEquals(result.getNome(), produtoMock.getNome()),
+                () -> assertEquals(result.getImagemPath(), produtoMock.getImagemPath()),
+                () -> assertEquals(result.getCategoria(), produtoMock.getCategoria()),
+                () -> assertEquals(result.getPreco(), produtoMock.getPreco()),
+                () -> assertEquals(result.getId(), produtoMock.getId()),
+                () -> assertEquals(result.getDescricao(), produtoMock.getDescricao())
+        );
+    }
+
+    @Test
+    @Description("Deve retornar EntityNotFoundException ao tentar buscar um produto por id")
+    void deveRetornarEntityNotFoundExceptionBuscarProdutoId() {
+        when(repositoryProduto.findById(anyInt())).thenReturn(Optional.empty());
+
+        assertThrows(EntityNotFoundException.class, () -> produtoGateway.buscaPorId(1));
+        verify(repositoryProduto, times(1)).findById(anyInt());
+        verify(produtoMapper, times(0)).fromDbEntityToEntity(any());
+    }
+
+    @Test
+    @Description("Deve retornar Exception ao tentar buscar um produto por id")
+    void deveRetornarExceptionBuscarProdutoId() {
+        when(repositoryProduto.findById(anyInt())).thenThrow(new RuntimeException());
+
+        assertThrows(Exception.class, () -> produtoGateway.buscaPorId(1));
+        verify(repositoryProduto, times(1)).findById(anyInt());
+        verify(produtoMapper, times(0)).fromDbEntityToEntity(any());
+    }
 }

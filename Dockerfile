@@ -13,7 +13,7 @@ FROM openjdk:17-slim
 
 WORKDIR /app
 
-ENV APP_NAME=lanchonete
+ENV APP_NAME=lanchonete-produto
 ENV JAR_FILE=${APP_NAME}-0.0.1-SNAPSHOT.jar
 
 COPY --from=build /app/build/libs/${JAR_FILE} /app/${APP_NAME}-app.jar
@@ -23,6 +23,6 @@ RUN apt-get update && apt-get install -y curl \
     && curl -o /app/wait-for-it.sh https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh \
     && chmod +x /app/wait-for-it.sh
 
-ENTRYPOINT ["/app/wait-for-it.sh", "svc-mysql-db:3306", "--", "java", "-jar", "/app/lanchonete-app.jar"]
+ENTRYPOINT ["/app/wait-for-it.sh", "mysql-db:3306", "--", "java", "-jar", "/app/lanchonete-produto-app.jar"]
 
 EXPOSE 8080
