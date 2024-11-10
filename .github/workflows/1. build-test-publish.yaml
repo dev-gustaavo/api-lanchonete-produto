@@ -27,7 +27,6 @@ jobs:
     name: "Análise do SonarQube"
     runs-on: ubuntu-latest
     needs:
-      - bdd
       - build_and_test
 
     steps:
