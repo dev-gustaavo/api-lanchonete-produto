@@ -1,60 +1,62 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: deployment-lanchonete-app
+  name: deployment-lanchonete-app-produto
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: pod-lanchonete-app
+      app: pod-lanchonete-app-produto
   template:
     metadata:
       labels:
-        app: pod-lanchonete-app
+        app: pod-lanchonete-app-produto
     spec:
       containers:
-        - name: container-lanchonete-app
-          image: gtbarbosa/fiap-tech-challenge-lanchonete
+        - name: container-lanchonete-app-produto
+          image: gtbarbosa/fiap-tech-challenge-lanchonete-api-produto
           env:
             - name: APP_NAME
               valueFrom:
                 configMapKeyRef:
-                  name: app-configmap
+                  name: app-configmap-produto
                   key: APP_NAME
             - name: DDL_AUTO
               valueFrom:
                 configMapKeyRef:
-                  name: app-configmap
+                  name: app-configmap-produto
                   key: DDL_AUTO
             - name: SHOW_SQL
               valueFrom:
                 configMapKeyRef:
-                  name: app-configmap
+                  name: app-configmap-produto
                   key: SHOW_SQL
             - name: URL_DATABASE
               valueFrom:
                 configMapKeyRef:
-                  name: app-configmap
+                  name: app-configmap-produto
                   key: URL_DATABASE
             - name: USER_DATABASE
               valueFrom:
                 configMapKeyRef:
-                  name: app-configmap
+                  name: app-configmap-produto
                   key: USER_DATABASE
             - name: APP_PORT
               valueFrom:
                 configMapKeyRef:
-                  name: app-configmap
+                  name: app-configmap-produto
                   key: APP_PORT
             - name: PASSWORD_DATABASE
               valueFrom:
                 secretKeyRef:
-                  name: mysql-secret
+                  name: mysql-secret-produto
                   key: MYSQL_PASSWORD
           ports:
-            - containerPort: 8080
+            - containerPort: 80
           resources:
             requests:
-              cpu: "1000m"
+              cpu: "500m"
+              memory: "512Mi"
             limits:
-              cpu: "1200m"
+              cpu: "700m"
+              memory: "768Mi"
