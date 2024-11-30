@@ -1,13 +1,13 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: app-configmap
+  name: app-configmap-produto
 data:
-  APP_NAME: lanchonete
+  APP_NAME: lanchonete-produto
   DDL_AUTO: create-drop
   SHOW_SQL: "true"
-  URL_DATABASE: jdbc:mysql://svc-mysql-db:3306/lanchonete
+  URL_DATABASE: jdbc:mysql://svc-mysql-db-produto:3306/lanchonete-produto
   USER_DATABASE: user
-  APP_PORT: "8080"
-  MYSQL_DATABASE: lanchonete
+  APP_PORT: "80"
+  MYSQL_DATABASE: lanchonete-produto
   MYSQL_USER: user

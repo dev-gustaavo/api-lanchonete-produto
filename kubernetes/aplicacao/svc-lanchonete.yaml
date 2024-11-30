@@ -1,14 +1,14 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: svc-lanchonete-app
+  name: svc-lanchonete-app-produto
   labels:
-    app: svc-lanchonete-app
+    app: svc-lanchonete-app-produto
 spec:
   type: LoadBalancer
   ports:
     - protocol: TCP
       port: 80
-      targetPort: 8080
+      targetPort: 80
   selector:
-    app: pod-lanchonete-app
+    app: pod-lanchonete-app-produto
